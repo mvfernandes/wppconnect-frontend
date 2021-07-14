@@ -1,5 +1,5 @@
 export default {
-    name: "light",
+    name: "dark",
     colors: {
         primary: "",
         secondary: "",
@@ -7,12 +7,18 @@ export default {
 
         separator: "#F2F2F2",
 
-        hover_chat: "#F3F3F5",
+        hover_chat: "#555",
         focus_textarea: "#AA83FF",
+        textarea: "#f5f5f5",
 
         quoted_background: "#F3F3F5",
 
-        name_user: "#3d3d42",
-        message_content: "#626264",
+        name_user: "#f3f3f3",
+        message_content: "#f3f3f3",
+
+        bg_card_message: "#28a745",
+
+        message_centered: "#28a745",
+        message_content_link: "#2855a7",
     }
 }

@@ -42,7 +42,7 @@ import api from "../../services/api";
 import ImageLoader from "../../assets/ic_loader_chat.svg";
 import ChatComponent from "../../components/ChatPage/ChatComponent";
 import ConversasComponent from "../../components/ChatPage/ConversasComponent";
-import {getSession, getToken} from "../../services/auth";
+import {getSession, getToken, getUser} from "../../services/auth";
 import config from "../../util/sessionHeader";
 import MicRecorder from "mic-recorder-to-mp3";
 import BackdropComponent from "../../components/BackdropComponent";
@@ -72,6 +72,23 @@ const SendMessagePage = () => {
     const [emoji, setEmoji] = useState(false);
     const [hasMessages, setHasMessages] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
+
+    const [isGroup, setIsGroup] = useState(false);
+    const [number, setNumber] = useState('');
+
+    useEffect(() => {
+        if (choosedContact) {
+            setIsGroup(choosedContact?.id?.includes("@g.us"));
+            function getNumber() {
+                let idOfContactSlected = choosedContact.id ? choosedContact.id.split('-') : [];
+    
+                if (idOfContactSlected.length > 0) {
+                    setNumber(idOfContactSlected[0]);
+                }
+            }
+            getNumber();
+        }
+    }, [choosedContact]);
 
     useEffect(() => {
         if (allMessages.length > 0 && !hasMessages) {
@@ -212,10 +229,14 @@ const SendMessagePage = () => {
             reader.readAsDataURL(blob);
             reader.onloadend = async function () {
                 const base64data = reader.result;
-                await api.post(`${getSession()}/send-voice`, {
+                const body = {
                     url: base64data,
                     phone: choosedContact.id,
-                }, config());
+                };
+                if (choosedContact.id.includes("@g.us")) {
+                    body.isGroup = true;
+                }
+                await api.post(`${getSession()}/send-voice`, body, config());
             };
 
             const file = new File(buffer, "audio.mp3", {
@@ -311,8 +332,8 @@ const SendMessagePage = () => {
 
     async function sendMessage() {
         if (!!message.trim() && !!getSession()) {
-            //   const by = `*${getUser()}:* \n\n`;
-            const by = "";
+            const by = `*${getUser()}:* \n\n`;
+            // const by = "";
             let endpoint = "send-message";
 
             const body = {
@@ -463,6 +484,10 @@ const SendMessagePage = () => {
         }
     };
 
+    const getMessagesInChat = useCallback(async () => {
+        onClickContact(choosedContact);
+    }, [number, isGroup]);
+
     return (
         <Layout>
             <Container ref={dropRef}>
@@ -532,6 +557,7 @@ const SendMessagePage = () => {
                                     token={getToken()}
                                     message={message}
                                     selectMessageId={() => setSelectedMessage(message)}
+                                    getMessages={getMessagesInChat}
                                     />
                                 </li>
                                 );

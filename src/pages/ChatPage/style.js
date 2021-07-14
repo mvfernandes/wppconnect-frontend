@@ -403,7 +403,7 @@ export const ChatContainer = styled.div`
     height: 70px;
     font-size: 16px;
     background: ${({theme}) => theme.colors.background};
-    color: ${({theme}) => theme.colors.name_user};
+    color: ${({theme}) => theme.colors.textarea};
     border: 2px solid ${({theme}) => theme.colors.separator};
     margin-bottom: 10px;
     transition-duration: 200ms;

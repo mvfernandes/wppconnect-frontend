@@ -31,7 +31,7 @@ export const MessageContainer = styled.div`
     margin-bottom: 10px;
     padding-right: 20px;
     width: fit-content;
-    color: #28a745;
+    color: ${({ theme }) => theme.colors.message_centered || "#000" };
     font-weight: bold;
   }
 
@@ -43,13 +43,13 @@ export const MessageContainer = styled.div`
   padding: 5px 10px;
   flex-direction: column;
   flex-wrap: wrap;
-  color: ${({ side }) => (side === "left" ? "#333" : "#fff")};
+  color: ${({ side }) => (side === "left" ? "#000" : "#fff")};
   border-radius: 5px;
 
   ${({ isWarning }) =>
     !isWarning &&
     css`
-      background: ${({ side }) => (side === "left" ? "#F3F3F5" : "#6A30FF")};
+      background: ${({ side, theme }) => (side === "left" ? "#F3F3F5" : theme.colors.bg_card_message)};
     `}
   .caption {
     bottom: 0;
@@ -173,6 +173,6 @@ export const MessageContentText = styled.div`
   white-space: pre-wrap;
 
   a {
-    color: ${({ side }) => (side === "left" ? "#333" : "#fff")};
+    color: ${({ theme }) => theme.colors.message_content_link||'#2855a7'};
   }
 `;

@@ -47,6 +47,7 @@ const ChatComponent = ({
   isMe,
   isWarning,
   selectMessageId,
+  getMessages
 }) => {
   const imageRef = useRef(null);
   const audioRef = useRef(null);
@@ -331,6 +332,7 @@ const ChatComponent = ({
                 },
                 config()
               );
+              getMessages();
             } catch (error) {
               toast.error("Não foi possível apagar", {
                 position: "bottom-center",

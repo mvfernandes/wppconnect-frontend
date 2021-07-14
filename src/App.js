@@ -19,13 +19,17 @@ import {ThemeProvider} from "styled-components";
 import GlobalStyle, {Container, Layout} from "./style/GlobalStyle";
 import Routes from "./routes";
 import "react-toastify/dist/ReactToastify.css";
-import light from "./style/themes/light";
-// import dark from "./style/themes/dark";
+import themes from "./style/themes";
+
+const getTheme = () => {
+    const theme = localStorage.getItem('ad-theme');
+    return theme ? themes[theme] : themes.dark;
+}
 
 function App() {
     return (
         <BrowserRouter>
-            <ThemeProvider theme={light}>
+            <ThemeProvider theme={getTheme()}>
                 <Layout>
                     <Container>
                         <Routes/>

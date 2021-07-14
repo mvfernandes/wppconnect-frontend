@@ -16,11 +16,12 @@
 import { Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import { Dashboard } from "./dashboad";
+import { MultiUserLoginPage } from "pages/MultiUserLoginPage";
 
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/" component={LoginPage} />
+      <Route exact path="/" component={MultiUserLoginPage} />
       <Route path="/nova-sessao" component={LoginPage} />
 
       <Route path="/" component={Dashboard} />
